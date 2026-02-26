@@ -258,7 +258,19 @@ function calculate({ gender, birth, start, prim }) {
     canRetireNow,
   };
 }
+// Sağlık kontrolü: tarayıcıdan kontrol için
+app.get("/", (req, res) => {
+  res.status(200).send("OK");
+});
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ ok: true });
+});
+
+// Yanlışlıkla tarayıcıdan /calculate açılınca açıklama dönsün
+app.get("/calculate", (req, res) => {
+  res.status(405).json({ error: "Bu adres POST ister. /calculate için POST gönderin." });
+});
 app.post("/calculate", (req, res) => {
   const { gender, birth, start, prim } = req.body || {};
   const out = calculate({
